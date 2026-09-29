@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DSA Tracker</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#12040a;--card:#2b0b16;--tx:#f3d9e0;--mut:#b7808f;--bd:#5a1a2e;--trk:#3f1020}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:linear-gradient(165deg,#3a0a1a 0%,#1c0710 45%,#0e0308 100%) fixed;color:var(--tx);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:16px}
+h1{margin:0 0 4px;font-size:26px}
+.sub{color:var(--mut);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.st{border-radius:14px;padding:12px;color:#f7e6ea;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.st b{display:block;font-size:22px}.st span{font-size:12px;opacity:.85}
+.card{background:linear-gradient(150deg,#3e0f20,#260a14 60%,#1c070e);box-shadow:0 4px 14px rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:12px}
+.heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px;overflow-x:auto;padding-bottom:4px}
+.heat i{width:14px;height:14px;border-radius:3px;background:var(--trk)}
+.l1{background:#7a2a3e!important}.l2{background:#a32747!important}.l3{background:#c93a5a!important}
+h2{font-size:17px;margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+h2 small{color:var(--mut);font-weight:400;font-size:13px}
+.dot{width:12px;height:12px;border-radius:50%}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.name{font-weight:650}
+.ctl{display:flex;align-items:center;gap:6px;justify-content:space-between;font-size:13px}
+.lbl{color:var(--mut);font-size:12px;margin-bottom:2px}
+.bar{height:8px;border-radius:99px;background:#1c0710;overflow:hidden;margin:4px 0 6px}
+.bar div{height:100%;border-radius:99px}
+button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:6px 11px;font-weight:700;color:#f7e6ea}
+.pm{width:34px;height:34px;padding:0;font-size:20px}
+.pl{background:linear-gradient(135deg,#b3163f,#8f0e33)}
+.mn{background:linear-gradient(135deg,#6a1a2d,#4c1120)}
+.ghost{background:var(--trk);color:var(--tx);font-weight:600;font-size:13px}
+.wide{width:auto;padding:8px 14px;font-size:14px;margin-top:8px}
+.done{background:#8f0e33;color:#f7e6ea;border-radius:99px;font-size:11px;padding:2px 8px;font-weight:700}
+.over{color:#d9607c;font-size:11px;font-weight:700}
+input,textarea{width:100%;border-radius:9px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);padding:8px;font:inherit;margin-top:6px}
+textarea{min-height:80px;resize:vertical}
+.dd{margin-top:8px;border:1px solid var(--bd);border-radius:10px;padding:4px 10px 8px;background:rgba(14,3,8,.45)}
+.q{border-top:1px solid var(--bd);margin-top:6px;padding-top:6px}.q:first-child{border-top:0;margin-top:0}
+.qn{background:none;padding:2px 0;text-align:left;font-weight:600;flex:1;color:var(--tx)}
+.q a{color:#e27a92;font-size:12px}
+.x{background:none;color:var(--mut);padding:0 6px;font-size:18px}
+.bk{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+@media(max-width:480px){.row{grid-template-columns:1fr}}
+
+:root{--bg:#000;--card:#070000;--tx:#ecd0d0;--mut:#a06060;--bd:#3d0808;--trk:#1a0404}
+body{background:#000;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1{font-size:26px;margin:0 0 4px;font-weight:700}
+h2{font-size:17px;font-weight:700}
+.card{background:#060000;border:1px solid var(--bd);box-shadow:none;margin-bottom:8px}
+.st{background:#9e0b0b!important;border:0;box-shadow:none;color:#f3d6d6}
+.pl{background:#9e0b0b;box-shadow:none}
+.mn{background:#000;border:1px solid #9e0b0b;color:#d23a3a}
+.ghost{background:#000;border:1px solid #5a0808;color:var(--tx)}
+.done{background:#9e0b0b}
+.over{color:#d23a3a}
+.bar{background:#1c0505}
+input,textarea{background:#000;border:1px solid #3d0808;color:var(--tx)}
+.dd{background:#000;border-color:#3d0808}
+.l1{background:#4a0707!important}.l2{background:#7a0a0a!important}.l3{background:#b50f0f!important}
+.row{display:block!important}
+.tp{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px 22px;align-items:center;padding:10px 14px}
+.hd{display:flex;align-items:center;gap:8px}.name{font-size:16px}
+.cl{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.bt{display:flex;gap:6px;align-items:center}
+.tp .pm{width:30px;height:30px;font-size:18px}
+.tp .ghost{padding:5px 10px}
+.tp .bar{margin:6px 0 0}
+.tp .frm,.tp .dd{grid-column:1/-1}
+.tp .pm.wide{width:auto;height:auto;min-height:38px;padding:9px 20px;font-size:14px;margin-top:10px;white-space:nowrap;border-radius:10px}
+@media(max-width:640px){.tp{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<h1>DSA Tracker</h1>
+<div class="sub">Python • 2-year plan • everything saves in this browser</div>
+<div class="stats" id="stats"></div>
+<div class="card"><div class="top"><b>Last 12 weeks</b><button class="ghost" id="today">Mark today</button></div><div class="heat" id="heat"></div></div>
+<div id="topics"></div>
+<h2>📝 General notes</h2>
+<div class="card"><textarea id="gen" placeholder="Anything: tricks, mistakes, plans..."></textarea></div>
+<h2>☁️ Backup &amp; notes export</h2>
+<div class="card"><div class="sub" style="margin:0">Notes and attached files upload to your Drive folders automatically. The export lists every question as DSA / topic / question.md, ready to file into Drive. Backup (JSON) and Restore move your progress between browsers.</div>
+<div class="bk"><button class="ghost" id="bn">Drive export (text)</button><button class="ghost" id="bj">Backup (JSON)</button><button class="ghost" id="cp">Copy</button><button class="ghost" id="rs">Restore</button></div>
+<textarea id="box" placeholder="Output / paste area"></textarea></div>
+</div>
+<script>
+const PH=["Phase 1 · Algorithm Patterns","Phase 2 · Data Structures","Phase 3 · Dynamic Programming","Phase 4 · Advanced","Phase 5 · Mastery"];
+const mix=f=>{const a=[190,18,18],b=[80,4,4];return"rgb("+a.map((v,i)=>Math.round(v+(b[i]-v)*f)).join(",")+")"};
+const T=[[0,"Recursion",3,20],[0,"Hashmap / HashSet",3,35],[0,"Prefix Sum",2,15],[0,"Two Pointers",3,35],[0,"Sliding Window",3,35],[0,"Binary Search",4,40],[0,"Sorting + Intervals",2,20],[0,"Backtracking",5,40],[0,"Greedy",4,35],[0,"Bit Manipulation",2,20],
+[1,"Linked List",3,25],[1,"Stack / Queue / Monotonic",3,30],[1,"Trees + BST",6,50],[1,"Heap / Priority Queue",3,25],[1,"Trie",1,10],[1,"Graphs (BFS/DFS/Topo/DSU)",8,60],[1,"Shortest Paths + MST",3,20],
+[2,"1D DP",4,30],[2,"2D / Grid DP",4,30],[2,"Knapsack DP",3,25],[2,"String DP",3,25],[2,"DP on Trees / Bitmask / Intervals",4,25],
+[3,"Segment / Fenwick Tree",3,15],[3,"String Algorithms",2,10],[3,"Math + Number Theory",2,15],[3,"Advanced Graphs",3,15],
+[4,"Mixed Revision",8,100],[4,"Timed Practice + Contests",8,60]]
+.map((t,i,A)=>({id:"t"+i,ph:t[0],name:t[1],days:t[2]*6,probs:t[3],c:mix(i/(A.length-1))}));
+const FID=["FOLDER_ID_1", "FOLDER_ID_2", "FOLDER_ID_3", "FOLDER_ID_4", "FOLDER_ID_5", "FOLDER_ID_6", "FOLDER_ID_7", "FOLDER_ID_8", "FOLDER_ID_9", "FOLDER_ID_10", "FOLDER_ID_11", "FOLDER_ID_12", "FOLDER_ID_13", "FOLDER_ID_14", "FOLDER_ID_15", "FOLDER_ID_16", "FOLDER_ID_17", "FOLDER_ID_18", "FOLDER_ID_19", "FOLDER_ID_20", "FOLDER_ID_21", "FOLDER_ID_22", "FOLDER_ID_23", "FOLDER_ID_24", "FOLDER_ID_25", "FOLDER_ID_26", "FOLDER_ID_27", "FOLDER_ID_28"];
+const API="YOUR_APPS_SCRIPT_WEB_APP_URL";
+const MAX=15*1048576; // 15 MB per file
+const b64File=f=>new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(",")[1]);r.onerror=rej;r.readAsDataURL(f)});
+const b64Text=s=>{const b=new TextEncoder().encode(s);let x="";for(let i=0;i<b.length;i+=8192)x+=String.fromCharCode.apply(null,b.subarray(i,i+8192));return btoa(x)};
+async function post(p){
+ let pass=null;try{pass=localStorage.getItem("dsa-pass")}catch(e){}
+ if(!pass){pass=prompt("Enter your upload passcode");if(!pass)throw new Error("Passcode needed")}
+ let r;
+ try{r=await(await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(Object.assign({secret:pass},p))})).json()}
+ catch(e){throw new Error("Network error - check the Apps Script URL and access setting")}
+ if(!r.ok){if(r.error==="unauthorized"){try{localStorage.removeItem("dsa-pass")}catch(e){}throw new Error("Wrong passcode - try again")}throw new Error(r.error||"Upload failed")}
+ try{localStorage.setItem("dsa-pass",pass)}catch(e){}
+ return r}
+async function up(id,i){const q=st(id).q[i];if(!q||q.drive||q.busy)return;
+ q.busy=1;delete q.err;render();
+ try{const txt=q.n+"\n"+(q.l?q.l+"\n":"")+"Solved: "+q.t+"\n\n"+(q.c||"");
+  const r=await post({folderId:FID[+id.slice(1)],name:q.n.replace(/[\/\\]/g,"-")+".md",mime:"text/plain",data:b64Text(txt)});
+  q.drive=r.url||"saved"}
+ catch(e){q.err=e.message}
+ delete q.busy;save();render()}
+function filesUI(q,k){const f=q.files||[];
+ return `<div style="margin:8px 0">${f.map(x=>`<div class="lbl">📄 <a href="${esc(x.u)}" target="_blank" rel="noopener">${esc(x.n)}</a></div>`).join("")}${q.fbusy?`<div class="lbl">⏳ Uploading ${q.fbusy} file(s)...</div>`:""}${q.ferr?`<div class="over">${esc(q.ferr)}</div>`:""}<label class="ghost" style="display:inline-block;cursor:pointer;padding:6px 11px;border-radius:9px;margin-top:6px">📎 Attach file<input type="file" multiple data-fq="${k}" style="display:none"></label></div>`}
+document.addEventListener("change",async e=>{const t=e.target;if(!t.dataset||!t.dataset.fq)return;
+ const[id,i]=t.dataset.fq.split(":"),q=st(id).q[+i],files=[...t.files];if(!q||!files.length)return;
+ delete q.ferr;
+ for(const f of files){
+  if(f.size>MAX){q.ferr=f.name+" is over "+(MAX/1048576)+" MB";render();continue}
+  q.fbusy=(q.fbusy||0)+1;render();
+  try{const r=await post({folderId:FID[+id.slice(1)],name:f.name,mime:f.type,data:await b64File(f)});
+   (q.files=q.files||[]).push({n:f.name,u:r.url})}
+  catch(err){q.ferr=err.message}
+  q.fbusy--;if(!q.fbusy)delete q.fbusy;save();render()}
+});
+const K="dsa-tracker-v1";
+let S={t:{},log:{},gen:""},open={},qo={},add=null;
+try{const r=localStorage.getItem(K);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+Object.values(S.t).forEach(s=>(s.q||[]).forEach(q=>{delete q.busy;delete q.fbusy}));
+const $=id=>document.getElementById(id);
+const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+const ds=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const st=id=>{const s=S.t[id]||(S.t[id]={d:0,q:[]});if(!s.q)s.q=[];return s};
+const mark=()=>{const k=ds(new Date());S.log[k]=S.log[k]||1};
+function streaks(){let cur=0,best=0,run=0;const d=new Date();
+ if(!S.log[ds(d)])d.setDate(d.getDate()-1);
+ while(S.log[ds(d)]){cur++;d.setDate(d.getDate()-1)}
+ Object.keys(S.log).sort().forEach((k,i,a)=>{const p=i&&new Date(a[i-1]+"T00:00:00"),c=new Date(k+"T00:00:00");
+  run=i&&Math.round((c-p)/864e5)===1?run+1:1;best=Math.max(best,run)});
+ return[cur,best]}
+function render(){
+ let tp=0,td=0,tT=0,done=0;T.forEach(t=>{const s=st(t.id);tp+=s.q.length;td+=s.d;tT+=t.probs;if(s.q.length>=t.probs&&s.d>0)done++});
+ const[cur,best]=streaks(),act=Object.keys(S.log).length;
+ const cards=[["linear-gradient(135deg,#a3163c,#6e0e28)","🔥 "+cur,"Current streak (days)"],["linear-gradient(135deg,#921436,#5f0c23)","🏆 "+best,"Best streak"],["linear-gradient(135deg,#821231,#540a1f)","✔ "+tp+" / "+tT,"Questions solved"],["linear-gradient(135deg,#720f2b,#4a091c)","📅 "+td,"Practice days logged"],["linear-gradient(135deg,#620d26,#3f0718)","🎯 "+done+" / "+T.length,"Topics complete"],["linear-gradient(135deg,#520b20,#360614)","⚡ "+act,"Active days"]];
+ $("stats").innerHTML=cards.map(c=>`<div class="st" style="background:${c[0]}"><b>${c[1]}</b><span>${c[2]}</span></div>`).join("");
+ const h=[],today=new Date();today.setHours(12);const off=(today.getDay()+6)%7,start=new Date(today);start.setDate(start.getDate()-77-off);
+ for(let i=0;i<91;i++){const d=new Date(start);d.setDate(start.getDate()+i);if(d>today)break;const n=S.log[ds(d)]||0;h.push(`<i class="${n?"l"+Math.min(3,n):""}" title="${ds(d)}"></i>`)}
+ $("heat").innerHTML=h.join("");
+ $("today").textContent=S.log[ds(new Date())]?"✅ Today logged":"Mark today";
+ let out="";PH.forEach((P,pi)=>{const L=T.filter(t=>t.ph===pi);
+  out+=`<h2><span class="dot" style="background:${L[0].c}"></span>${P} <small>${L.length} topics</small></h2><div class="row">`;
+  L.forEach(t=>{const s=st(t.id),n=s.q.length,dp=Math.min(100,s.d/t.days*100),pp=Math.min(100,n/t.probs*100),ok=n>=t.probs&&s.d>0,g=t.c;
+   out+=`<div class="card tp" style="border-left:4px solid ${t.c}"><div class="hd"><span class="name">${t.name}</span>${ok?'<span class="done">DONE</span>':""}</div>
+   <div><div class="cl"><span class="lbl">Days ${s.d}/${t.days} ${s.d>t.days?`<span class="over">+${s.d-t.days} extra</span>`:""}</span><span class="bt"><button class="pm mn" data-a="d-" data-id="${t.id}">−</button><button class="pm pl" data-a="d+" data-id="${t.id}">+</button></span></div><div class="bar"><div style="width:${dp}%;background:${g}"></div></div></div>
+   <div><div class="cl"><span class="lbl">Questions ${n}/${t.probs} ${n>t.probs?`<span class="over">+${n-t.probs} extra</span>`:""}</span><span class="bt"><button class="ghost" data-a="ql" data-id="${t.id}">${open[t.id]?"▾":"▸"} ${n} saved</button><button class="pm pl" data-a="qa" data-id="${t.id}">+</button></span></div><div class="bar"><div style="width:${pp}%;background:${g}"></div></div></div>
+   ${add===t.id?`<div class="frm"><input data-f="n" placeholder="Question name (e.g. Two Sum)"><input data-f="l" placeholder="Link (optional)"><textarea data-f="c" placeholder="Approach, solution code, notes..."></textarea><div class="lbl" style="margin-top:6px">The note goes to Drive when you press Save, so finish writing first.</div><button class="pm pl wide" data-a="qs" data-id="${t.id}">Save question</button></div>`:""}
+   ${open[t.id]?`<div class="dd">${n?s.q.map((q,i)=>{const k=t.id+":"+i,o=qo[k];return`<div class="q"><div class="top"><button class="qn" data-a="qt" data-id="${t.id}" data-i="${i}">${o?"▾":"▸"} ${esc(q.n)} ${q.drive?"☁️":"⚠️"}</button><button class="x" data-a="qd" data-id="${t.id}" data-i="${i}">×</button></div>${o?`<div>${q.l?`<a href="${esc(q.l)}" target="_blank" rel="noopener">link</a> `:""}${q.busy?"⏳ Saving to Drive...":q.drive?(q.drive.startsWith("http")?`<a href="${esc(q.drive)}" target="_blank" rel="noopener">☁️ Open in Drive</a>`:"☁️ In Drive"):`<span class="over">${esc(q.err||"Not in Drive yet")}</span> <button class="ghost" data-a="qr" data-id="${t.id}" data-i="${i}">Upload to Drive</button>`}${filesUI(q,k)}<textarea data-qn="${k}">${esc(q.c||"")}</textarea></div>`:""}</div>`}).join(""):'<div class="lbl" style="margin:6px 0 0">No questions saved yet.</div>'}</div>`:""}
+   </div>`});
+  out+="</div>"});
+ $("topics").innerHTML=out}
+document.addEventListener("click",e=>{const b=e.target.closest("button[data-a]");if(!b)return;
+ const id=b.dataset.id,a=b.dataset.a,s=id&&st(id);
+ if(a==="d+"){s.d++;mark()}else if(a==="d-"){s.d=Math.max(0,s.d-1)}
+ else if(a==="ql"){open[id]=!open[id]}
+ else if(a==="qa"){add=add===id?null:id}
+ else if(a==="qr"){up(id,+b.dataset.i)}
+ else if(a==="qt"){const k=id+":"+b.dataset.i;qo[k]=!qo[k]}
+ else if(a==="qd"){s.q.splice(+b.dataset.i,1);qo={}}
+ else if(a==="qs"){const f=b.closest(".frm"),v=k=>f.querySelector('[data-f="'+k+'"]').value.trim();
+  if(!v("n"))return;s.q.push({n:v("n"),l:v("l"),c:v("c"),t:ds(new Date())});mark();add=null;up(id,s.q.length-1)}
+ save();render()});
+document.addEventListener("input",e=>{const t=e.target;
+ if(t.dataset.qn){const[id,i]=t.dataset.qn.split(":");st(id).q[+i].c=t.value;save()}
+ else if(t.id==="gen"){S.gen=t.value;save()}});
+$("today").onclick=()=>{const k=ds(new Date());if(S.log[k])delete S.log[k];else S.log[k]=1;save();render()};
+$("gen").value=S.gen;
+$("bn").onclick=()=>{let o="";T.forEach(t=>st(t.id).q.forEach(q=>{o+="=== DSA/"+t.name.replace(/[\/]/g,"-")+"/"+q.n.replace(/[\/]/g,"-")+".md ===\n# "+q.n+"\n"+(q.l?q.l+"\n":"")+"Solved: "+q.t+"\n\n"+(q.c||"")+"\n\n"}));
+ if(S.gen)o+="=== DSA/General notes.md ===\n"+S.gen+"\n";$("box").value=o||"No questions saved yet."};
+$("bj").onclick=()=>{$("box").value=JSON.stringify(S)};
+$("cp").onclick=async()=>{const b=$("box");b.select();try{await navigator.clipboard.writeText(b.value)}catch(e){try{document.execCommand("copy")}catch(_){}}};
+$("rs").onclick=()=>{try{const o=JSON.parse($("box").value);if(o&&o.t&&o.log){S=Object.assign({t:{},log:{},gen:""},o);save();$("gen").value=S.gen;render()}}catch(e){$("box").value="Could not read that backup."}};
+render();
+</script></body></html>
